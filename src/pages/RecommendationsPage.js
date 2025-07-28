@@ -31,15 +31,31 @@ const RecommendationsPage = () => {
   const [ratingFilter, setRatingFilter] = useState('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [showActivityModal, setShowActivityModal] = useState(false);
+  const [showAddItemModal, setShowAddItemModal] = useState(false);
   const [selectedOccasion, setSelectedOccasion] = useState('work');
   const [selectedWeather, setSelectedWeather] = useState('mild');
 
-  // Mock wardrobe items (My Closet)
-  const wardrobeItems = [
+  // Add Item Form State
+  const [newItem, setNewItem] = useState({
+    name: '',
+    category: 'Tops',
+    color: '',
+    occasion: 'Casual',
+    season: 'All',
+    tags: '',
+    price: '',
+    rating: 4.0,
+    reviews: 0,
+    image: null,
+    imagePreview: null
+  });
+
+  // Mock wardrobe items (My Closet) - now with state for adding new items
+  const [wardrobeItems, setWardrobeItems] = useState([
     {
       id: 1,
       name: "Black T-shirt",
-      category: "T-Shirt",
+      category: "Tops",
       color: "Black",
       occasion: "Work",
       season: "All",
@@ -104,7 +120,7 @@ const RecommendationsPage = () => {
     {
       id: 6,
       name: "Beige Pant",
-      category: "Outerwear",
+      category: "Bottoms",
       color: "Beige",
       occasion: "Work",
       season: "All",
@@ -130,7 +146,7 @@ const RecommendationsPage = () => {
     {
       id: 8,
       name: "Black Watch",
-      category: "accessories",
+      category: "Accessories",
       color: "Black",
       occasion: "Casual",
       season: "all",
@@ -143,7 +159,7 @@ const RecommendationsPage = () => {
     {
       id: 9,
       name: "Brown Belt",
-      category: "accessories",
+      category: "Accessories",
       color: "Brown",
       occasion: "Casual",
       season: "all",
@@ -156,7 +172,7 @@ const RecommendationsPage = () => {
     {
       id: 10,
       name: "Brown Mules",
-      category: "footwear",
+      category: "Footwear",
       color: "Brown",
       occasion: "Casual",
       season: "all",
@@ -169,7 +185,7 @@ const RecommendationsPage = () => {
     {
       id: 11,
       name: "Brown Shoulder Bag",
-      category: "accessories",
+      category: "Accessories",
       color: "Brown",
       occasion: "Casual",
       season: "all",
@@ -182,7 +198,7 @@ const RecommendationsPage = () => {
     {
       id: 12,
       name: "Fanny Bag",
-      category: "accessories",
+      category: "Accessories",
       color: "White",
       occasion: "Casual",
       season: "all",
@@ -195,7 +211,7 @@ const RecommendationsPage = () => {
     {
       id: 13,
       name: "Crossbody Bag",
-      category: "accessories",
+      category: "Accessories",
       color: "Biege",
       occasion: "Casual",
       season: "all",
@@ -208,7 +224,7 @@ const RecommendationsPage = () => {
     {
       id: 14,
       name: "Pointed Toe Heels",
-      category: "footwear",
+      category: "Footwear",
       color: "Brown",
       occasion: "Casual",
       season: "all",
@@ -247,7 +263,7 @@ const RecommendationsPage = () => {
     {
       id: 17,
       name: "Classic Brown Watch",
-      category: "accessories",
+      category: "Accessories",
       color: "Brown",
       occasion: "Casual",
       season: "all",
@@ -260,7 +276,7 @@ const RecommendationsPage = () => {
     {
       id: 18,
       name: "Black Loafers",
-      category: "footwear",
+      category: "Footwear",
       color: "Black",
       occasion: "Casual",
       season: "all",
@@ -269,8 +285,21 @@ const RecommendationsPage = () => {
       price: "₹4,999",
       rating: 4.7,
       reviews: 321
+    },
+    {
+      id: 19,
+      name: "Navy Blazer",
+      category: "Outerwear",
+      color: "Black",
+      occasion: "Professional",
+      season: "all",
+      image: "https://frenchcrown.in/cdn/shop/files/BL695_2.jpg?v=1737976063&width=1600",
+      tags: ["Professional", "Work", "Timeless"],
+      price: "₹4,999",
+      rating: 4.7,
+      reviews: 321
     }
-  ];
+  ]);
 
   // Mock capsule wardrobe data
   const capsuleWardrobe = {
@@ -349,7 +378,7 @@ const RecommendationsPage = () => {
         newOutfits: 8,
         existingMatches: ["Flaired Bottom", "Ankle Boots", "Brown Mules"],
         recommendation: "high",
-        reason: "This skirt fills a major gap in your work wardrobe and creates 8 new professional outfits with your existing pieces.",
+        reason: "This shirt fills a major gap in your work wardrobe and creates 8 new professional outfits with your existing pieces.",
       },
       sustainability: {
         score: 85,
@@ -407,6 +436,71 @@ const RecommendationsPage = () => {
       recommendationType: "Versatility Booster"
     }
   ];
+
+  // Handle image upload
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setNewItem(prev => ({
+          ...prev,
+          image: file,
+          imagePreview: e.target.result
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Handle form input changes
+  const handleInputChange = (field, value) => {
+    setNewItem(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  // Handle adding new item
+  const handleAddItem = () => {
+    if (!newItem.name || !newItem.color || !newItem.imagePreview) {
+      alert('Please fill in all required fields and upload an image');
+      return;
+    }
+
+    const newWardrobeItem = {
+      id: wardrobeItems.length + 1,
+      name: newItem.name,
+      category: newItem.category,
+      color: newItem.color,
+      occasion: newItem.occasion,
+      season: newItem.season,
+      image: newItem.imagePreview,
+      tags: newItem.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
+      price: newItem.price || "₹0",
+      rating: newItem.rating,
+      reviews: newItem.reviews
+    };
+
+    setWardrobeItems(prev => [...prev, newWardrobeItem]);
+    
+    // Reset form
+    setNewItem({
+      name: '',
+      category: 'Tops',
+      color: '',
+      occasion: 'Casual',
+      season: 'All',
+      tags: '',
+      price: '',
+      rating: 4.0,
+      reviews: 0,
+      image: null,
+      imagePreview: null
+    });
+
+    setShowAddItemModal(false);
+  };
 
   const getWardrobeStats = () => {
     const totalItems = wardrobeItems.length;
@@ -581,7 +675,7 @@ const RecommendationsPage = () => {
                   <h2>Your Digital Closet</h2>
                   <p>AI-powered wardrobe organization and analysis</p>
                 </div>
-                <button className="add-item-btn">
+                <button className="add-item-btn" onClick={() => setShowAddItemModal(true)}>
                   <i className="fas fa-plus"></i>
                   Add Item
                 </button>
@@ -983,6 +1077,138 @@ const RecommendationsPage = () => {
           </div>
         )}
       </div>
+
+      {/* Add Item Modal */}
+      {showAddItemModal && (
+        <div className="modal-overlay" onClick={() => setShowAddItemModal(false)}>
+          <div className="add-item-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Add New Item to Wardrobe</h3>
+              <button className="close-btn" onClick={() => setShowAddItemModal(false)}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="form-grid">
+                {/* Image Upload Section */}
+                <div className="image-upload-section">
+                  <label className="upload-label">
+                    <div className="upload-area">
+                      {newItem.imagePreview ? (
+                        <img src={newItem.imagePreview} alt="Preview" className="image-preview" />
+                      ) : (
+                        <div className="upload-placeholder">
+                          <i className="fas fa-camera"></i>
+                          <p>Click to upload image</p>
+                        </div>
+                      )}
+                    </div>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      style={{ display: 'none' }}
+                    />
+                  </label>
+                </div>
+
+                {/* Form Fields */}
+                <div className="form-fields">
+                  <div className="form-group">
+                    <label>Item Name *</label>
+                    <input
+                      type="text"
+                      value={newItem.name}
+                      onChange={(e) => handleInputChange('name', e.target.value)}
+                      placeholder="e.g., Blue Denim Jacket"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Category *</label>
+                    <select
+                      value={newItem.category}
+                      onChange={(e) => handleInputChange('category', e.target.value)}
+                    >
+                      <option value="Tops">Tops</option>
+                      <option value="Bottoms">Bottoms</option>
+                      <option value="Outerwear">Outerwear</option>
+                      <option value="Footwear">Footwear</option>
+                      <option value="Accessories">Accessories</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Color *</label>
+                    <input
+                      type="text"
+                      value={newItem.color}
+                      onChange={(e) => handleInputChange('color', e.target.value)}
+                      placeholder="e.g., Navy Blue"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Occasion</label>
+                    <select
+                      value={newItem.occasion}
+                      onChange={(e) => handleInputChange('occasion', e.target.value)}
+                    >
+                      <option value="Casual">Casual</option>
+                      <option value="Work">Work</option>
+                      <option value="Evening">Evening</option>
+                      <option value="Professional">Professional</option>
+                      <option value="Travel">Travel</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Season</label>
+                    <select
+                      value={newItem.season}
+                      onChange={(e) => handleInputChange('season', e.target.value)}
+                    >
+                      <option value="All">All Seasons</option>
+                      <option value="Spring">Spring</option>
+                      <option value="Summer">Summer</option>
+                      <option value="Fall">Fall</option>
+                      <option value="Winter">Winter</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Tags</label>
+                    <input
+                      type="text"
+                      value={newItem.tags}
+                      onChange={(e) => handleInputChange('tags', e.target.value)}
+                      placeholder="e.g., Casual, Versatile, Classic (comma separated)"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Price (Optional)</label>
+                    <input
+                      type="text"
+                      value={newItem.price}
+                      onChange={(e) => handleInputChange('price', e.target.value)}
+                      placeholder="e.g., ₹2,999"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button className="cancel-btn" onClick={() => setShowAddItemModal(false)}>
+                Cancel
+              </button>
+              <button className="add-btn" onClick={handleAddItem}>
+                Add to Wardrobe
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Activity Modal */}
       {showActivityModal && (
