@@ -1,0 +1,295 @@
+.amazon-nav {
+  background-color: #131921;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.nav-belt {
+  display: flex;
+  align-items: center;
+  padding: 8px 14px;
+  background-color: #131921;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  text-decoration: none;
+  color: white !important;
+  padding: 10px 9px;
+  border: 1px solid transparent;
+  transition: border 0.2s;
+}
+
+.nav-logo:hover {
+  border: 1px solid white;
+}
+
+.nav-logo * {
+  color: inherit !important;
+}
+
+.amazon-logo-container {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.amazon-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  font-family: Arial, sans-serif;
+  letter-spacing: -1px;
+}
+
+.amazon-arrow-img {
+  position: absolute;
+  bottom: -8px;
+  left: 2px;
+  height: 10px;
+  width: auto;
+}
+
+.nav-domain {
+  color: #ff9900 !important;
+  font-size: 14px;
+  font-weight: 400;
+  margin-left: 2px;
+}
+
+.nav-location {
+  display: flex;
+  align-items: center;
+  padding: 10px 9px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: border 0.2s;
+}
+
+.nav-location:hover {
+  border: 1px solid white;
+}
+
+.nav-location i {
+  margin-right: 5px;
+  color: #ccc;
+}
+
+.nav-location-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-location-top {
+  font-size: 12px;
+  color: #ccc;
+  line-height: 14px;
+}
+
+.nav-location-bottom {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 15px;
+}
+
+.nav-fill {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  margin: 0 20px;
+}
+
+.nav-search {
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.nav-search-dropdown {
+  background-color: #f3f3f3;
+  border: none;
+  padding: 10px 8px;
+  font-size: 12px;
+  border-radius: 4px 0 0 4px;
+  cursor: pointer;
+  color: #333;
+}
+
+.nav-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.nav-search-button {
+  background-color: #ff9900;
+  border: none;
+  padding: 0 20px;
+  cursor: pointer;
+  border-radius: 0 4px 4px 0;
+  color: #333;
+}
+
+.nav-search-button:hover {
+  background-color: #e88b00;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 9px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+  transition: border 0.2s;
+  margin-right: 10px;
+}
+
+.nav-item:hover {
+  border: 1px solid white;
+}
+
+.nav-item-top {
+  font-size: 12px;
+  color: #ccc;
+  line-height: 14px;
+}
+
+.nav-item-bottom {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 15px;
+}
+
+.nav-cart {
+  display: flex;
+  align-items: center;
+  padding: 10px 9px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: border 0.2s;
+  position: relative;
+}
+
+.nav-cart:hover {
+  border: 1px solid white;
+}
+
+.nav-cart i {
+  font-size: 24px;
+  margin-right: 5px;
+}
+
+.nav-cart-count {
+  position: absolute;
+  top: 5px;
+  left: 15px;
+  background-color: #ff9900;
+  color: #333;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.nav-cart-text {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.nav-main {
+  background-color: #232f3e;
+  display: flex;
+  align-items: center;
+  padding: 8px 14px;
+  font-size: 14px;
+}
+
+.nav-hamburger {
+  display: flex;
+  align-items: center;
+  padding: 10px 9px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: border 0.2s;
+  margin-right: 20px;
+}
+
+.nav-hamburger:hover {
+  border: 1px solid white;
+}
+
+.nav-hamburger i {
+  margin-right: 5px;
+}
+
+.nav-main-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-main-links a,
+.nav-main-links span {
+  color: white;
+  text-decoration: none;
+  padding: 10px 9px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: border 0.2s;
+}
+
+.nav-main-links a:hover,
+.nav-main-links span:hover {
+  border: 1px solid white;
+}
+
+@media (max-width: 768px) {
+  .nav-belt {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .nav-fill {
+    order: 3;
+    margin: 0;
+    width: 100%;
+  }
+  
+  .nav-main-links {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .nav-location-text,
+  .nav-item {
+    display: none;
+  }
+  
+  .nav-location i,
+  .nav-cart i {
+    display: block;
+  }
+} 
